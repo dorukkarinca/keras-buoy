@@ -31,7 +31,7 @@ Example
 ::
     
     from tensorflow import keras
-    from keras-buoy import ResumableModel
+    from keras_buoy.models import ResumableModel
 
     model = keras.Sequential()
     ...
