@@ -5,6 +5,9 @@ keras-buoy
 Keras wrapper that autosaves and auto-recovers not just the model weights but also the last epoch number and training history metrics.
 
 ::
+    pip install keras-buoy
+
+::
 
     >>> resumableModel = ResumableModel(model, save_every_epochs=4, to_path='kerascheckpoint.h5')
     >>> history = resumableModel.fit(x = x_train, y = y_train, validation_split=0.1, batch_size = 256, verbose=2, epochs=15)
