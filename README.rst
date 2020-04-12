@@ -5,6 +5,7 @@ keras-buoy
 Keras wrapper that autosaves and auto-recovers not just the model weights but also the last epoch number and training history metrics.
 
 ::
+
     pip install keras-buoy
 
 ::
