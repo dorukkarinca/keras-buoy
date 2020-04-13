@@ -53,7 +53,7 @@ Usage
 
 It returns :code:`history` which is the history dict of the Keras History object. Note that it does not return the Keras.History object itself, just the dict.
 
-If :code:`to_path` is :code:`mymodel.h5`, then there will be :code:`mymodel_epoch_num.pkl` and :code:`mymodel_history.h5` in the same directory as :code:`mymodel.pkl`, which hold backups for the epoch counter and the history dict, respectively.
+If :code:`to_path` is :code:`mymodel.h5`, then there will be :code:`mymodel_epoch_num.pkl` and :code:`mymodel_history.pkl` in the same directory as :code:`mymodel.h5`, which hold backups for the epoch counter and the history dict, respectively.
 
 Note
 ====
