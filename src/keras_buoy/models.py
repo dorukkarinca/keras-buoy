@@ -24,7 +24,7 @@ class ResumableModel(object):
 
   Returns: A Keras History.history dictionary of the entire training process.
   """
-  def __init__(self, model, custom_objects, save_every_epochs=10, to_path="model.h5"):
+  def __init__(self, model, custom_objects=None, save_every_epochs=10, to_path="model.h5"):
     
     assert to_path.endswith(".h5")
     assert save_every_epochs > 0
