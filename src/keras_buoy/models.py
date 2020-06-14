@@ -24,13 +24,14 @@ class ResumableModel(object):
 
   Returns: A Keras History.history dictionary of the entire training process.
   """
-  def __init__(self, model, save_every_epochs=10, to_path="model.h5"):
+  def __init__(self, model, custom_objects, save_every_epochs=10, to_path="model.h5"):
     
     assert to_path.endswith(".h5")
     assert save_every_epochs > 0
 
     self.model = model
     self.save_every_epochs = save_every_epochs
+    self.custom_objects = custom_objects
     self.to_path = to_path
     self.prefix = os.path.splitext(to_path)[0]
     self.epoch_num_file = self.prefix + "_epoch_num.pkl"
@@ -42,7 +43,7 @@ class ResumableModel(object):
     self.history = self.get_history()
     # recover model from path
     if os.path.exists(to_path):
-      self.model = load_model(to_path)
+      self.model = load_model(to_path, custom_objects=self.custom_objects)
       logger = logging.getLogger()
       logger.info(f"Recovered model from {to_path} at epoch {self.initial_epoch}.")
 
