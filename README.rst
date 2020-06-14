@@ -39,11 +39,12 @@ Example
 
     model = keras.Sequential()
     ...
-    resumable_model = ResumableModel(model, save_every_epochs = 4, to_path='/path/to/save/model_weights.h5')
+    resumable_model = ResumableModel(model, save_every_epochs = 4, custom_objects=None, to_path='/path/to/save/model_weights.h5')
     history = resumable_model.fit(x = x_train, y = y_train, validation_split = 0.1, batch_size = 256, verbose = 2, epochs = 12)
 
 Usage
 =====
+:code:`custom_objects (dict)` is passed into :code:`tf.keras.models.load_model(...)` so you can load your model with a custom loss for example.
 
 :code:`save_every_epochs (int)` will save the model, history, and epoch counter every so often. In case of a crash, recovery will happen from the last saved epoch multiple.
 
