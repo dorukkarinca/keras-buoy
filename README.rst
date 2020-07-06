@@ -81,6 +81,10 @@ Creates a resumable model.
 
 A ResumableModel instance. You can call :code:`.fit(...)` on it.
 
+|
+|
+|
+
 ++++++++++++++++++++++++++++++++++++++++++++
 :code:`keras.buoy.models.ResumableModel.fit` 
 ++++++++++++++++++++++++++++++++++++++++++++
