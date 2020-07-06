@@ -7,15 +7,41 @@ keras-buoy
 
 Keras wrapper that autosaves and auto-recovers not just the model weights but also the last epoch number and training history metrics.
 
+See it in action in `this Colab notebook <https://colab.research.google.com/drive/1uubwP4DQJPpMDKN9GY1y1SZeds83gwYV?usp=sharing>`_!
+
 ::
 
     pip install keras-buoy
 
 ::
 
-    >>> resumableModel = ResumableModel(model, save_every_epochs=4, to_path='kerascheckpoint.h5')
-    >>> history = resumableModel.fit(x = x_train, y = y_train, validation_split=0.1, batch_size = 256, verbose=2, epochs=15)
 
+Description
+===========
+
+When training is interrupted and you rerun the whole code, it recovers the model weights and the epoch counter to the last saved values. Then it resumes training as if nothing happened. At the end, the Keras History.history dictionaries are combined so that the training history looks like one single training run.
+
+Example
+=======
+
+::
+    
+    >>> from tensorflow import keras
+    >>> from keras_buoy.models import ResumableModel
+
+    >>> model = keras.Sequential()
+    ...
+    >>> resumable_model = ResumableModel(model, 
+                                         save_every_epochs=4, 
+                                         custom_objects=None, 
+                                         to_path='/path/to/save/model_weights.h5')
+    >>> history = resumable_model.fit(x=x_train, 
+                                      y=y_train,
+                                      validation_split=0.1,
+                                      batch_size=256,
+                                      verbose=2,
+                                      epochs=12)
+    
     Recovered model from kerascheckpoint.h5 at epoch 8.
 
     Epoch 9/15
@@ -25,37 +51,49 @@ Keras wrapper that autosaves and auto-recovers not just the model weights but al
     Epoch 11/15
     1125/1125 - 5s - loss: 0.4753 - top_k_categorical_accuracy: 0.9702 - val_loss: 1.1000 - val_top_k_categorical_accuracy: 0.9215
     Epoch 12/15
-    ...
 
-Description
-===========
+Try it out yourself in `this Colab notebook <https://colab.research.google.com/drive/1uubwP4DQJPpMDKN9GY1y1SZeds83gwYV?usp=sharing>`_.
 
-When training is interrupted due to a crash/accidental :code:`Ctrl+C` and you rerun the whole code, it recovers the model weights and the epoch counter to the last saved values. Then it resumes training as if nothing happened. At the end, the Keras History.history dictionaries are combined so that the training history looks like one single training run.
+Docs
+====
 
-Example
-=======
+++++++++++++++++++++++++++++++++++++++++
+:code:`keras_buoy.models.ResumableModel`
+++++++++++++++++++++++++++++++++++++++++
 
-::
-    
-    from tensorflow import keras
-    from keras_buoy.models import ResumableModel
+Creates a resumable model.
 
-    model = keras.Sequential()
-    ...
-    resumable_model = ResumableModel(model, save_every_epochs = 4, custom_objects=None, to_path='/path/to/save/model_weights.h5')
-    history = resumable_model.fit(x = x_train, y = y_train, validation_split = 0.1, batch_size = 256, verbose = 2, epochs = 12)
+**Parameters:**
 
-Usage
-=====
-:code:`custom_objects (dict)` is passed into :code:`tf.keras.models.load_model(...)` so you can load your model with a custom loss for example.
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Parameter name                    | Description                                                                                                                                                                   |
++===================================+===============================================================================================================================================================================+
+| :code:`model (tf.keras.Model)`    | The instance of :code:`tf.keras.Model` which you want to make resumable.                                                                                                      |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| :code:`save_every_epochs (int)`   | Specifies how often to save the model, history, and epoch counter.  In case of a crash, recovery will happen from the last saved epoch multiple.                              |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| :code:`custom_objects (dict)`     | At recovery time, this is passed into :code:`tf.keras.models.load_model(...)` exactly as shown in Tensorflow docs so you can load your model with a custom loss for example.  |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| :code:`to_path (str)`             | Specifies the path where the model weights will be saved, and must have the :code:`.h5` extension.                                                                            |
++-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
-:code:`save_every_epochs (int)` will save the model, history, and epoch counter every so often. In case of a crash, recovery will happen from the last saved epoch multiple.
+**Returns:**
 
-:code:`to_path (str)` is where the model weights will be saved, and must have the :code:`.h5` extension.
+A ResumableModel instance. You can call :code:`.fit(...)` on it.
 
-:code:`resumable_model.fit(...)` is the same as Keras' :code:`model.fit(...)`.
+++++++++++++++++++++++++++++++++++++++++++++
+:code:`keras.buoy.models.ResumableModel.fit` 
+++++++++++++++++++++++++++++++++++++++++++++
 
-It returns :code:`history` which is the history dict of the Keras History object. Note that it does not return the Keras.History object itself, just the dict.
+Fits a resumable model.
+
+**Parameters:**
+
+The accepted parameters are the same as :code:`tf.Keras.model.fit(...)` except you cannot specify :code:`initial_epoch`.
+
+**Returns:**
+
+:code:`history (dict)`: The history dict of the Keras History object. Note that it does not return the :code:`Keras.History` object itself, just the dict.
 
 If :code:`to_path` is :code:`mymodel.h5`, then there will be :code:`mymodel_epoch_num.pkl` and :code:`mymodel_history.pkl` in the same directory as :code:`mymodel.h5`, which hold backups for the epoch counter and the history dict, respectively.
 
