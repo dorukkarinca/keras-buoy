@@ -12,15 +12,15 @@ import pickle
 import numpy as np
 from tensorflow import keras 
 from tensorflow.keras import layers
+import tensorflow.keras.backend as K
 
-
-def build_model_and_data():
+def build_model_and_data(custom_loss=None):
   # Build model and random data
   model = keras.Sequential()
   model.add(layers.Dense(128, activation='relu'))
   model.add(layers.Dense(128, activation='relu'))
   model.add(layers.Dense(128, activation='relu'))
-  model.compile(loss='binary_crossentropy',
+  model.compile(loss=('binary_crossentropy' if not custom_loss else custom_loss),
               optimizer='adam')
   x_train = np.random.rand(1000, 16)
   y_train = np.random.randint(2, size=1000)
@@ -45,8 +45,8 @@ def test_initial_epoch_set():
     resumable_model = ResumableModel(model, save_every_epochs=4, to_path='/tmp/nonexistentmodel.h5')
     history = resumable_model.fit(x=x_train, y=y_train, validation_split=0.1, batch_size=256, verbose=2, epochs=12, initial_epoch=1)
 
-def single_run(num_epochs, save_every_epochs):
-  model, x_train, y_train = build_model_and_data()
+def single_run(num_epochs, save_every_epochs, custom_loss=None):
+  model, x_train, y_train = build_model_and_data(custom_loss=custom_loss)
   filesCreated = ['/tmp/mymodel.h5', '/tmp/mymodel_epoch_num.pkl', '/tmp/mymodel_history.pkl']
   # test resumable model with random data
   for filePath in filesCreated:
@@ -54,7 +54,7 @@ def single_run(num_epochs, save_every_epochs):
       os.remove(filePath)
   x_train = np.random.rand(1000, 16)
   y_train = np.random.randint(2, size=1000)
-  resumable_model = ResumableModel(model, save_every_epochs=save_every_epochs, to_path='/tmp/mymodel.h5')
+  resumable_model = ResumableModel(model, save_every_epochs=save_every_epochs, to_path='/tmp/mymodel.h5', custom_objects={'custom_loss': custom_loss})
   history = resumable_model.fit(x=x_train, y=y_train, validation_split=0.1, batch_size=256, verbose=2, epochs=num_epochs)
 
   assert history != {} 
@@ -81,6 +81,11 @@ def test_resumable_model_single_run_with_save_every_epoch_1():
 
 def test_resumable_model_single_run_with_single_epoch():
   single_run(num_epochs=1, save_every_epochs=1)
+
+def test_resumable_model_single_run_with_custom_loss():
+  def custom_loss(y_true, y_pred):
+    return K.mean(K.abs(y_pred - y_true), axis=-1)        
+  single_run(num_epochs=3, save_every_epochs=1, custom_loss=custom_loss)
 
 def test_resumable_model_interrupted_run():
   model, x_train, y_train = build_model_and_data()
