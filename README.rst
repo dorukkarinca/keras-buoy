@@ -2,6 +2,9 @@
 keras-buoy
 ==========
 
+.. image:: https://travis-ci.com/dorukkarinca/keras-buoy.svg?branch=master
+    :target: https://travis-ci.com/dorukkarinca/keras-buoy
+
 Keras wrapper that autosaves and auto-recovers not just the model weights but also the last epoch number and training history metrics.
 
 ::
