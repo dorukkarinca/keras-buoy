@@ -77,6 +77,8 @@ Creates a resumable model.
 | :code:`to_path (str)`             | Specifies the path where the model weights will be saved, and must have the :code:`.h5` extension.                                                                            |
 +-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
+If :code:`to_path` is :code:`mymodel.h5`, then there will be :code:`mymodel_epoch_num.pkl` and :code:`mymodel_history.pkl` in the same directory as :code:`mymodel.h5`, which hold backups for the epoch counter and the history dict, respectively.
+
 **Returns:**
 
 A ResumableModel instance. You can call :code:`.fit(...)` on it.
@@ -98,8 +100,6 @@ The accepted parameters are the same as :code:`tf.Keras.model.fit(...)` except y
 **Returns:**
 
 :code:`history (dict)`: The history dict of the Keras History object. Note that it does not return the :code:`Keras.History` object itself, just the dict.
-
-If :code:`to_path` is :code:`mymodel.h5`, then there will be :code:`mymodel_epoch_num.pkl` and :code:`mymodel_history.pkl` in the same directory as :code:`mymodel.h5`, which hold backups for the epoch counter and the history dict, respectively.
 
 Note
 ====
