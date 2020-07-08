@@ -40,7 +40,7 @@ Example
                                       validation_split=0.1,
                                       batch_size=256,
                                       verbose=2,
-                                      epochs=12)
+                                      epochs=15)
     
     Recovered model from kerascheckpoint.h5 at epoch 8.
 
