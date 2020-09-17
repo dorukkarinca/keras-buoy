@@ -26,7 +26,6 @@ class ResumableModel(object):
   """
   def __init__(self, model, custom_objects=None, save_every_epochs=10, to_path="model.h5"):
     
-    assert to_path.endswith(".h5")
     assert save_every_epochs > 0
 
     self.model = model

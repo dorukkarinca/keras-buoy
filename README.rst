@@ -65,17 +65,17 @@ Creates a resumable model.
 
 **Parameters:**
 
-+-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| Parameter name                    | Description                                                                                                                                                                   |
-+===================================+===============================================================================================================================================================================+
-| :code:`model (tf.keras.Model)`    | The instance of :code:`tf.keras.Model` which you want to make resumable.                                                                                                      |
-+-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| :code:`save_every_epochs (int)`   | Specifies how often to save the model, history, and epoch counter.  In case of a crash, recovery will happen from the last saved epoch multiple.                              |
-+-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| :code:`custom_objects (dict)`     | At recovery time, this is passed into :code:`tf.keras.models.load_model(...)` exactly as shown in Tensorflow docs so you can load your model with a custom loss for example.  |
-+-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| :code:`to_path (str)`             | Specifies the path where the model weights will be saved, and must have the :code:`.h5` extension.                                                                            |
-+-----------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
++-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Parameter name                    | Description                                                                                                                                                                     |
++===================================+=================================================================================================================================================================================+
+| :code:`model (tf.keras.Model)`    | The instance of :code:`tf.keras.Model` which you want to make resumable.                                                                                                        |
++-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| :code:`save_every_epochs (int)`   | Specifies how often to save the model, history, and epoch counter.  In case of a crash, recovery will happen from the last saved epoch multiple.                                |
++-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| :code:`custom_objects (dict)`     | At recovery time, this is passed into :code:`tf.keras.models.load_model(...)` exactly as shown in Tensorflow docs so you can load your model with a custom loss for example.    |
++-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| :code:`to_path (str)`             | Specifies the path where the model weights will be saved. If it ends with :code:`.h5`, then it saves in the Keras H5 format instead of the default TensorFlow SavedModel format.|
++-----------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
 If :code:`to_path` is :code:`mymodel.h5`, then there will be :code:`mymodel_epoch_num.pkl` and :code:`mymodel_history.pkl` in the same directory as :code:`mymodel.h5`, which hold backups for the epoch counter and the history dict, respectively.
 
