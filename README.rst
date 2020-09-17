@@ -13,8 +13,6 @@ See it in action in `this Colab notebook <https://colab.research.google.com/driv
 
     pip install keras-buoy
 
-::
-
 
 Description
 ===========
